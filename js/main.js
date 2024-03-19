@@ -39,6 +39,22 @@ function init() {
     render();
 }
 
+// visualize all state in the DOM
 function render() {
+    renderBoard();
+    renderMessage();
+    // hide/show UI elements (controls
+    renderControls();)
+}
 
+function renderBoard() {
+
+}
+
+function renderMessage() {
+
+}
+
+function renderControls() {
+    
 }
