@@ -1,5 +1,9 @@
 /*----- constants -----*/
-
+const COLORS = {
+    '0': 'white',
+    '1': 'purple',
+    '-1': 'orange',
+};
 
 /*----- state variables -----*/
 let board; // array of 7 column arrays
@@ -7,7 +11,9 @@ let turn; // 1 or -1
 let winner; // null = no winner; 1 or -1 = winner; "T" = tie
 
 /*----- cached elements  -----*/
-
+const messageEl = doument.querySelector('h1');
+const playAgainBtn = document.querySelector('button');
+const markerEls = document.querySelectorAll('#markers > div');
 
 /*----- event listeners -----*/
 
@@ -34,5 +40,5 @@ function init() {
 }
 
 function render() {
-    
+
 }
