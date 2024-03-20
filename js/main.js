@@ -48,13 +48,35 @@ function render() {
 }
 
 function renderBoard() {
-
+    board.forEach(function(colArr, colIdx) {
+        // iterate over the cells in the current column (collArr)
+        colArr.forEach(function(cellVal, rowIdx){
+            const cellId = `c${colIdx}r${rowIdx}`;
+            const cellEl = document.getElementById(cellId)
+            cellEl.style.backgroundColor = COLORS[cellVal];
+        });
+    });
 }
 
 function renderMessage() {
-
+    if (winner === 'T'){
+        messageEl.innerText = "It's a tie!!!";
+    } else if (winner){
+        messageEl.innerHTML = `<span style = "color: ${COLORS[winner]}">$COLORS[winner].toUpperCase()}</span>Wins!`;
+    } else {
+        //Game is in play
+        messageEl.innerHTML = `<span style="color: ${COLORS[turn]}">${COLORS[turn].toUpperCase()}</span>'s Turn`;
+    }
 }
 
 function renderControls() {
-    
+    // Ternary expression is the go to when you want 1 of 2 values returned
+    // <conditional exp> ? <truthy exp> : <falsy exp>
+    playAgainBtn.style.visibility = winner ? 'visible' : 'hidden';
+    // Iterate over the marker elements to hide/show
+    // according to the column being full (no 0's) or not
+    markerEls.forEach(function(markerEl, colIdx){
+        const hideMarker = !board[colIdx].includes(0) || winner;
+        markerEl.style.visibility = hideMarker ? 'hidden' : 'visible';
+    });
 }
