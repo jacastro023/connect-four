@@ -11,9 +11,9 @@ let turn; // 1 or -1
 let winner; // null = no winner; 1 or -1 = winner; "T" = tie
 
 /*----- cached elements  -----*/
-const messageEl = doument.querySelector('h1');
+const messageEl = document.querySelector('h1');
 const playAgainBtn = document.querySelector('button');
-const markerEls = document.querySelectorAll('#markers > div');
+const markerEls = [...document.querySelectorAll('#markers > div')];
 
 /*----- event listeners -----*/
 document.getElementById('markers').addEventListener('click', handleDrop);
@@ -43,7 +43,7 @@ function init() {
 // in response to use interaction, update all impacted
 // state, then call render();
 function handleDrop(evt){
-    const colIdx = makerEls.indexOf(evt.target);
+    const colIdx = markerEls.indexOf(evt.target);
     // Guards...
     if (colIdx === -1) return;
     // Shortcut to the column array
@@ -55,7 +55,7 @@ function handleDrop(evt){
     // Switch player turn
     turn *= -1;
     // check for winner
-    winner = getWinner();
+    winner = getWinner(colIdx, rowIdx);
     render();
 }
 
@@ -82,12 +82,33 @@ function checkDiagonalWinNESW(colIdx, rowIdx) {
 
 function checkHorizontalWin(colIdx, rowIdx) {
     const adjCountLeft = countAdjacent(colIdx, rowIdx, -1, 0);
-    const adjCountRight = countAdjacent(colIdx, rowIdx, 1, 1);
+    const adjCountRight = countAdjacent(colIdx, rowIdx, 1, 0);
     return (adjCountLeft + adjCountRight) >= 3 ? board[colIdx][rowIdx] : null;
 }
 
 function checkVerticalWin(colIdx, rowIdx) {
     return countAdjacent(colIdx, rowIdx, 0, -1) === 3 ? board[colIdx][rowIdx] : null;
+}
+
+function countAdjacent(colIdx, rowIdx, colOffset, rowOffset) {
+    //shortcut variable to the player value
+    const player = board[colIdx][rowIdx];
+    // track count of adjacent cells with the same player value
+    let count = 0
+    // initialize new coordinates
+    colIdx += colOffset;
+    rowIdx += rowOffset;
+    while (
+        // ensure colIdx is within bounds of the board array
+        board[colIdx] !== undefined &&
+        board[colIdx][rowIdx] !== undefined &&
+        board[colIdx][rowIdx] === player
+    ) {
+        count ++;
+        colIdx += colOffset;
+        rowIdx += rowOffset;
+    }
+    return count;
 }
 
 // visualize all state in the DOM
@@ -113,7 +134,7 @@ function renderMessage() {
     if (winner === 'T'){
         messageEl.innerText = "It's a tie!!!";
     } else if (winner){
-        messageEl.innerHTML = `<span style = "color: ${COLORS[winner]}">$COLORS[winner].toUpperCase()}</span>Wins!`;
+        messageEl.innerHTML = `<span style="color: ${COLORS[winner]}">${COLORS[winner].toUpperCase()}</span> Wins!`;
     } else {
         //Game is in play
         messageEl.innerHTML = `<span style="color: ${COLORS[turn]}">${COLORS[turn].toUpperCase()}</span>'s Turn`;
