@@ -17,6 +17,7 @@ const markerEls = document.querySelectorAll('#markers > div');
 
 /*----- event listeners -----*/
 document.getElementById('markers').addEventListener('click', handleDrop);
+playAgainBtn.addEventListener('click', init);
 
 /*----- functions -----*/
 init();
