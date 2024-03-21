@@ -59,8 +59,13 @@ function handleDrop(evt){
     render();
 }
 
-function getWinner() {
-
+// check for winner in board state and
+// return null if no winner, 1/-1 if a player has won, 'T' if tie
+function getWinner(colIdx, rowIdx) {
+    return checkVerticalWin(colIdx, rowIdx) ||
+    checkHorizontalWin(colIdx, rowIdx) ||
+    checkDiagonalWinNESW(colIdx, rowIdx) ||
+    checkDiagonalWinNWSE(colIdx, rowIdx);
 }
 
 // visualize all state in the DOM
