@@ -39,12 +39,35 @@ function init() {
     render();
 }
 
+// in response to use interaction, update all impacted
+// state, then call render();
+function handleDrop(evt){
+    const colIdx = makerEls.indexOf(evt.target);
+    // Guards...
+    if (colIdx === -1) return;
+    // Shortcut to the column array
+    const colArr = board[colIdx];
+    // Find the index of the first 0 in colArr
+    const rowIdx = colArr.indexOf(0);
+    // Update the board state with the cur player value (turn)
+    colArr[rowIdx] = turn;
+    // Switch player turn
+    turn *= -1;
+    // check for winner
+    winner = getWinner();
+    render();
+}
+
+function getWinner() {
+
+}
+
 // visualize all state in the DOM
 function render() {
     renderBoard();
     renderMessage();
     // hide/show UI elements (controls
-    renderControls();)
+    renderControls();
 }
 
 function renderBoard() {
