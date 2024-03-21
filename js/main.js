@@ -68,6 +68,28 @@ function getWinner(colIdx, rowIdx) {
     checkDiagonalWinNWSE(colIdx, rowIdx);
 }
 
+function checkDiagonalWinNWSE(colIdx, rowIdx) {
+    const adjCountNW = countAdjacent(colIdx, rowIdx, -1, 1);
+    const adjCountSE = countAdjacent(colIdx, rowIdx, 1, -1);
+    return (adjCountNW + adjCountSE) >= 3 ? board[colIdx][rowIdx] : null;
+}
+
+function checkDiagonalWinNESW(colIdx, rowIdx) {
+    const adjCountNE = countAdjacent(colIdx, rowIdx, 1 , -1);
+    const adjCountSW = countAdjacent(colIdx, rowIdx, 1 , -1);
+    return (adjCountNE + adjCountSW) >= 3 ? board[colIdx][rowIdx] : null;
+}
+
+function checkHorizontalWin(colIdx, rowIdx) {
+    const adjCountLeft = countAdjacent(colIdx, rowIdx, -1, 0);
+    const adjCountRight = countAdjacent(colIdx, rowIdx, 1, 1);
+    return (adjCountLeft + adjCountRight) >= 3 ? board[colIdx][rowIdx] : null;
+}
+
+function checkVerticalWin(colIdx, rowIdx) {
+    return countAdjacent(colIdx, rowIdx, 0, -1) === 3 ? board[colIdx][rowIdx] : null;
+}
+
 // visualize all state in the DOM
 function render() {
     renderBoard();
